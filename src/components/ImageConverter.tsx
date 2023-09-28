@@ -60,7 +60,8 @@ function ImageConverter() {
                 processFile(file).then((webpURL) => {
                     if (webpURL) {
                         processedPreviews.push(webpURL);
-                        processedImageNames.push(file.name)
+                        const fileNameWithoutExtension = file.name.slice(0, file.name.lastIndexOf('.'))
+                        processedImageNames.push(fileNameWithoutExtension)
                         setImagePreviews([...processedPreviews]);
                         setImageNames([...processedImageNames])
                     }
@@ -75,7 +76,7 @@ function ImageConverter() {
 
     return (
         <div className='flex flex-col justify-center items-center z-40'>
-            <h1 className='text-center text-6xl font-bold'>Image to WebP</h1>
+            <h1 className='text-center text-6xl font-bold text-slate-600 mt-12'>Image to WebP</h1>
 
             <div className="flex items-center justify-center w-full z-40 relative py-32 px-2 md:px-32">
                 <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-slate-400 border-dashed rounded-lg cursor-pointer bg-none">
