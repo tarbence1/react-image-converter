@@ -1,11 +1,12 @@
 import { useState, ChangeEvent } from 'react';
+import ZipFiles from './ZipFiles';
 
-function ImageConverter() {
+const ImageConverter = () => {
     const [imagePreviews, setImagePreviews] = useState<string[]>([]);
     const [imageNames, setImageNames] = useState<string[]>([]);
     const [fileSelector, setFileSelector] = useState<HTMLInputElement | null>(null);
 
-    async function processFile(file: File) {
+    const processFile = async (file: File) => {
         if (!file) {
             return;
         }
@@ -15,7 +16,7 @@ function ImageConverter() {
         return webpURL;
     }
 
-    async function loadImage(file: File): Promise<string> {
+    const loadImage = async (file: File): Promise<string> => {
         return new Promise((resolve) => {
             const reader = new FileReader();
 
@@ -27,7 +28,7 @@ function ImageConverter() {
         });
     }
 
-    async function convertToWebp(imageURL: string): Promise<string> {
+    const convertToWebp = async (imageURL: string): Promise<string> => {
         return new Promise((resolve) => {
             const img = new Image();
             img.src = imageURL;
@@ -50,7 +51,7 @@ function ImageConverter() {
         });
     }
 
-    function fileSelectorChanged(e: ChangeEvent<HTMLInputElement>) {
+    const fileSelectorChanged = (e: ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
         const processedPreviews: string[] = [];
         const processedImageNames: string[] = [];
@@ -84,7 +85,7 @@ function ImageConverter() {
                         <svg className="w-8 h-8 mb-4 text-slate-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                         </svg>
-                        <p className="mb-2 text-sm text-slate-700"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                        <p className="mb-2 text-sm text-slate-700"><span className="font-semibold">Click to upload</span></p>
                         <p className="text-xs text-slate-700">SVG, PNG, JPG</p>
                     </div>
                     <input
@@ -98,7 +99,8 @@ function ImageConverter() {
                 </label>
             </div>
 
-
+            <ZipFiles images={imagePreviews} imageNames={imageNames} />
+            
             <section className="mt-8 pb-16 px-2 md:px-32" aria-labelledby="gallery-heading">
                 <ul
                     role="list"
@@ -123,7 +125,6 @@ function ImageConverter() {
                     ))}
                 </ul>
             </section>
-
 
         </div>
     );
