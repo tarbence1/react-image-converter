@@ -1,6 +1,6 @@
-import JSZip from 'jszip';
-import { saveAs } from "file-saver";
-import { useCallback } from 'react';
+import JSZip from 'jszip'
+import { saveAs } from "file-saver"
+import { useCallback } from 'react'
 
 type ZipFilesProps = {
     images: string[]
@@ -11,26 +11,26 @@ const ZipFiles: React.FC<ZipFilesProps> = ({ images, imageNames }) => {
 
     const download = useCallback(
         async (imagesToDownload: string[], imageNamesToDownload: string[]) => {
-            const zip = new JSZip();
-            const imagesFolder = zip.folder("images");
+            const zip = new JSZip()
+            const imagesFolder = zip.folder("images")
 
             const imagesFetcher = await Promise.all(
                 imagesToDownload.map(async (imgSrc) => {
-                    const res = await fetch(imgSrc);
-                    return res.blob();
+                    const res = await fetch(imgSrc)
+                    return res.blob()
                 })
-            );
+            )
 
             imagesFetcher.forEach((imgBlob, index) => {
-                imagesFolder?.file(`${imageNamesToDownload[index]}.webp`, imgBlob);
-            });
+                imagesFolder?.file(`${imageNamesToDownload[index]}.webp`, imgBlob)
+            })
 
             zip.generateAsync({ type: "blob" }).then((content: string | Blob) => {
-                saveAs(content, "images.zip");
-            });
+                saveAs(content, "images.zip")
+            })
         },
         []
-    );
+    )
 
     return (
         <>
@@ -46,4 +46,4 @@ const ZipFiles: React.FC<ZipFilesProps> = ({ images, imageNames }) => {
     );
 }
 
-export default ZipFiles;
+export default ZipFiles
